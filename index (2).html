@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lampa Client – darmowy launcher Minecraft</title>
+<meta name="description" content="Lampa Client – darmowy launcher Minecraft Java Edition z HUD-em i przeglądarką modów. Pobierz za darmo.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0d0b; --panel:#121815; --line:#2b3a31; --text:#e8f3ec; --muted:#8ba596;
+  --lamp:#22c55e; --lamp-d:#04140a; --mx:50%; --my:30%;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:400 17px/1.6 "Instrument Sans",system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{ /* światło lampy podążające za kursorem */
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(520px circle at var(--mx) var(--my),rgba(34,197,94,.16),transparent 70%);
+}
+main,header,footer{position:relative;z-index:1}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--lamp);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.05;letter-spacing:-.02em}
+
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.logo{font:800 22px "Bricolage Grotesque",sans-serif;text-decoration:none;display:flex;gap:10px;align-items:center}
+.logo i{width:14px;height:14px;border-radius:50%;background:var(--lamp);box-shadow:0 0 18px 4px rgba(34,197,94,.7)}
+nav .links{display:flex;gap:26px;font-weight:500;color:var(--muted)}
+nav .links a{text-decoration:none}
+nav .links a:hover{color:var(--text)}
+
+.hero{padding:70px 0 90px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(46px,8vw,92px);font-weight:800}
+.hero p.lead{font-size:20px;color:var(--muted);max-width:30em;margin:22px 0 32px}
+.btns{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:16px 28px;border-radius:14px;font:700 18px "Bricolage Grotesque",sans-serif;text-decoration:none;border:2px solid var(--lamp);transition:transform .15s,box-shadow .15s}
+.btn.main{background:var(--lamp);color:var(--lamp-d);box-shadow:0 0 36px rgba(34,197,94,.35)}
+.btn.main:hover{transform:translateY(-2px);box-shadow:0 0 52px rgba(34,197,94,.55)}
+.btn.ghost{background:transparent;color:var(--lamp)}
+.btn.ghost:hover{background:rgba(34,197,94,.1)}
+.meta{margin-top:16px;color:var(--muted);font-size:15px}
+
+/* podgląd launchera */
+.mock{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.mock .bar{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.mock .bar span{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.mock .body{display:grid;grid-template-columns:120px 1fr;min-height:250px}
+.mock .side{border-right:1px solid var(--line);padding:16px 12px;display:grid;gap:10px;align-content:start;font-size:14px;color:var(--muted)}
+.mock .side b{color:var(--lamp);font-weight:600}
+.mock .main{padding:18px;display:grid;gap:10px;align-content:start}
+.mod{display:flex;justify-content:space-between;align-items:center;background:#0a0d0b;border:1px solid var(--line);padding:10px 14px;border-radius:10px;font-size:15px}
+.sw{width:34px;height:20px;border-radius:20px;background:var(--line);position:relative}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--muted);transition:.2s}
+.sw.on{background:var(--lamp)} .sw.on::after{left:17px;background:var(--lamp-d)}
+
+section{padding:70px 0;border-top:1px solid var(--line)}
+section h2{font-size:clamp(32px,5vw,50px);margin-bottom:34px}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:34px 30px}
+.feat h3{font-size:22px;margin-bottom:8px;color:var(--lamp)}
+.feat p{color:var(--muted)}
+
+.steps{list-style:none;padding:0;display:grid;gap:18px;counter-reset:s;max-width:720px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:48px 1fr;gap:18px;align-items:start}
+.steps li::before{content:counter(s);width:48px;height:48px;border-radius:50%;background:var(--lamp);color:var(--lamp-d);display:grid;place-items:center;font:800 22px "Bricolage Grotesque",sans-serif}
+.steps strong{display:block;font:700 20px "Bricolage Grotesque",sans-serif}
+.steps span{color:var(--muted)}
+code{background:var(--panel);border:1px solid var(--line);padding:2px 8px;border-radius:6px;font-size:.92em}
+
+details{border-bottom:1px solid var(--line);padding:18px 0;max-width:760px}
+summary{cursor:pointer;font:700 20px "Bricolage Grotesque",sans-serif;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"+";color:var(--lamp);font-size:26px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px}
+
+footer{border-top:1px solid var(--line);padding:34px 0 50px;color:var(--muted);font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;padding-top:30px}
+  nav .links{gap:16px;font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <nav aria-label="Główna nawigacja">
+    <a class="logo" href="#"><i></i>Lampa Client</a>
+    <div class="links">
+      <a href="#funkcje">Funkcje</a>
+      <a href="#instalacja">Instalacja</a>
+      <a href="#faq">FAQ</a>
+      <a id="gh-link" href="https://github.com/lampaclient/pl">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <h1>Włącz światło w Minecraft.</h1>
+      <p class="lead">Lampa Client to darmowy launcher Minecrafta: Vanilla, Fabric, Forge i NeoForge w jednym miejscu, z wbudowanym HUD-em i przeglądarką modów.</p>
+      <div class="btns">
+        <a class="btn main" id="dl" href="https://github.com/lampaclient/pl/releases/latest">Pobierz Lampa Client</a>
+        <a class="btn ghost" href="#instalacja">Jak zainstalować</a>
+      </div>
+      <p class="meta" id="meta">Wersja: najnowsza · Windows</p>
+    </div>
+
+    <div class="mock" aria-hidden="true">
+      <div class="bar"><span></span><span></span><span></span></div>
+      <div class="body">
+        <div class="side"><b>Graj</b><span>Profile</span><span>Mody</span><span>Ustawienia</span></div>
+        <div class="main">
+          <div class="mod">Licznik FPS <div class="sw on"></div></div>
+          <div class="mod">Licznik CPS <div class="sw on"></div></div>
+          <div class="mod">Minimapa <div class="sw on"></div></div>
+          <div class="mod">Wytrzymałość <div class="sw"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="funkcje">
+    <div class="wrap">
+      <h2>Co dostajesz</h2>
+      <div class="feat">
+        <div><h3>Każdy loader</h3><p>Vanilla, Fabric, Forge i NeoForge. Wybierasz wersję gry i klikasz „Graj”.</p></div>
+        <div><h3>Wbudowany HUD</h3><p>FPS, CPS, koordynaty, minimapa i wytrzymałość przedmiotów. Launcher sam instaluje potrzebne mody HUD dla wybranej wersji.</p></div>
+        <div><h3>Przeglądarka modów</h3><p>Szukaj modów z ikonami i instaluj je prosto z launchera.</p></div>
+        <div><h3>Java z automatu</h3><p>Launcher sam pobiera Javę od Mojang, więc nie musisz jej instalować. Do gry wystarczy sam nick.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="instalacja">
+    <div class="wrap">
+      <h2>Instalacja w 3 krokach</h2>
+      <ol class="steps">
+        <li><div><strong>Pobierz launcher</strong><span>Kliknij „Pobierz Lampa Client”. Plik zapisze się w folderze Pobrane.</span></div></li>
+        <li><div><strong>Uruchom go</strong><span>Kliknij dwa razy <code>LampaClient_Setup.exe</code>. Instalator sam wszystko zainstaluje i od razu włączy launcher. Jeśli Windows pokaże niebieskie okno SmartScreen, wybierz „Więcej informacji”, a potem „Uruchom mimo to”.</span></div></li>
+        <li><div><strong>Wybierz wersję i graj</strong><span>Wpisz swój nick, wybierz wersję gry z loaderem i kliknij „Graj”. Przy pierwszym starcie potrzebny jest internet, bo launcher pobiera grę i Javę.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2>Pytania i odpowiedzi</h2>
+      <details><summary>Czy to jest darmowe?</summary><p>Tak. Pobierasz i używasz klienta bez żadnych opłat.</p></details>
+      <details><summary>Czy dostanę bana na serwerach?</summary><p>Zasady zależą od serwera. Używaj tylko modułów dozwolonych przez regulamin serwera, na którym grasz.</p></details>
+      <details><summary>Windows pokazuje „System Windows ochronił ten komputer”. Co robić?</summary><p>To okno SmartScreen. Pojawia się przy programach bez płatnego podpisu cyfrowego. Kliknij „Więcej informacji”, a potem „Uruchom mimo to”. Pobieraj instalator tylko z tej strony lub z Releases na GitHubie.</p></details>
+      <details><summary>Antywirus blokuje plik. Co robić?</summary><p>Pobieraj wyłącznie z tej strony lub z Releases na GitHubie. Nowe, niepodpisane programy często są oznaczane przez pomyłkę. Jeśli antywirus nadal reaguje, dodaj plik do wyjątków albo zgłoś problem w Issues.</p></details>
+      <details><summary>Gdzie zgłosić błąd?</summary><p>W zakładce Issues w repozytorium na GitHubie. Opisz, co się stało, i podaj swoją wersję gry.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Lampa Client. Projekt nie jest powiązany z Mojang ani Microsoft.</span>
+    <a href="https://github.com/lampaclient/pl/issues">Zgłoś błąd</a>
+  </div>
+</footer>
+
+<script>
+/* === USTAWIENIA: wpisz swój nick i nazwę repozytorium === */
+const REPO = "lampaclient/pl";
+const FILE = "LampaClient_Setup.exe";   // dokładnie ta nazwa pliku musi być w każdym wydaniu (Releases)
+
+document.getElementById("gh-link").href = "https://github.com/" + REPO;
+document.querySelector("footer a").href = "https://github.com/" + REPO + "/issues";
+document.getElementById("dl").href = "https://github.com/" + REPO + "/releases/latest/download/" + FILE;
+
+// Pobierz numer najnowszego wydania i link do pliku
+fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(rel => {
+    const list = rel.assets || [];
+    const asset = list.find(a => /\.exe$/i.test(a.name)) || list.find(a => a.name === FILE) || list[0];
+    if (asset) document.getElementById("dl").href = asset.browser_download_url;
+    document.getElementById("meta").textContent =
+      "Wersja " + rel.tag_name + " · Windows";
+  })
+  .catch(() => {});
+
+// Światło lampy podąża za kursorem
+addEventListener("pointermove", e => {
+  document.documentElement.style.setProperty("--mx", e.clientX + "px");
+  document.documentElement.style.setProperty("--my", e.clientY + "px");
+});
+</script>
+</body>
+</html>
