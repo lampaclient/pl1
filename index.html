@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lampa Client – darmowy launcher Minecraft</title>
-<meta name="description" content="Lampa Client – darmowy launcher Minecraft Java Edition na Windows i macOS, z HUD-em i przeglądarką modów. Pobierz za darmo.">
+<meta name="description" content="Lampa Client – darmowy launcher Minecraft Java Edition z HUD-em i przeglądarką modów. Pobierz za darmo.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -126,13 +126,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
           <a class="btn main" id="dl" href="https://github.com/lampaclient/pl1/releases/latest" aria-haspopup="true" aria-expanded="false" aria-controls="dlmenu">Pobierz Lampa Client <span class="car" aria-hidden="true">▾</span></a>
           <div class="dlmenu" id="dlmenu" role="menu" hidden>
             <a class="dlitem" id="dl-win" role="menuitem" href="#"><span class="ico" aria-hidden="true">🖥️</span><span><strong>Windows</strong><small id="win-meta">.exe · Windows 10/11</small></span></a>
-            <a class="dlitem" id="dl-mac" role="menuitem" href="#"><span class="ico" aria-hidden="true">🍎</span><span><strong>macOS</strong><small id="mac-meta">.dmg · macOS 10.15 Catalina lub nowszy</small></span></a>
+            <a class="dlitem" id="dl-mac" role="menuitem" href="#"><span class="ico" aria-hidden="true">🍎</span><span><strong>macOS</strong><small id="mac-meta">Sprawdzam…</small></span></a>
             <p class="dlnote" id="dlnote" hidden></p>
           </div>
         </div>
         <a class="btn ghost" href="#instalacja">Jak zainstalować</a>
       </div>
-      <p class="meta" id="meta">Wersja: najnowsza · Windows · macOS</p>
+      <p class="meta" id="meta">Wersja: najnowsza · Windows</p>
     </div>
 
     <div class="mock" aria-hidden="true">
@@ -165,8 +165,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     <div class="wrap">
       <h2>Instalacja w 3 krokach</h2>
       <ol class="steps">
-        <li><div><strong>Pobierz launcher</strong><span>Kliknij „Pobierz Lampa Client” i wybierz Windows albo macOS. Plik zapisze się w folderze Pobrane.</span></div></li>
-        <li><div><strong>Uruchom go</strong><span><b>Windows:</b> kliknij dwa razy <code>LampaClient_Setup.exe</code>. Instalator sam wszystko zainstaluje i od razu włączy launcher. Jeśli Windows pokaże niebieskie okno SmartScreen, wybierz „Więcej informacji”, a potem „Uruchom mimo to”.<br><b>macOS</b> (wymagany system od Cataliny 10.15 do najnowszego)<b>:</b> otwórz pobrany plik <code>.dmg</code> i przeciągnij Lampa Client do folderu Aplikacje. Jeśli system zablokuje program, kliknij go prawym przyciskiem i wybierz „Otwórz”.</span></div></li>
+        <li><div><strong>Pobierz launcher</strong><span>Kliknij „Pobierz Lampa Client”. Plik zapisze się w folderze Pobrane.</span></div></li>
+        <li><div><strong>Uruchom go</strong><span>Kliknij dwa razy <code>LampaClient_Setup.exe</code>. Instalator sam wszystko zainstaluje i od razu włączy launcher. Jeśli Windows pokaże niebieskie okno SmartScreen, wybierz „Więcej informacji”, a potem „Uruchom mimo to”.</span></div></li>
         <li><div><strong>Wybierz wersję i graj</strong><span>Wpisz swój nick, wybierz wersję gry z loaderem i kliknij „Graj”. Przy pierwszym starcie potrzebny jest internet, bo launcher pobiera grę i Javę.</span></div></li>
       </ol>
     </div>
@@ -176,7 +176,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     <div class="wrap">
       <h2>Pytania i odpowiedzi</h2>
       <details><summary>Czy to jest darmowe?</summary><p>Tak. Pobierasz i używasz klienta bez żadnych opłat.</p></details>
-      <details><summary>Czy jest wersja na Maca?</summary><p>Tak. Wymagany system to macOS od Cataliny (10.15) do najnowszej wersji. Po kliknięciu „Pobierz” wybierz macOS. Aplikacja nie ma płatnego podpisu Apple, więc przy pierwszym uruchomieniu system może ją zablokować: kliknij ją prawym przyciskiem, wybierz „Otwórz” i potwierdź.</p></details>
+      <details><summary>Czy jest wersja na Maca?</summary><p>Po kliknięciu „Pobierz” wybierasz Windows albo macOS. Wersja na macOS pojawi się na tej liście, gdy tylko zostanie opublikowana w wydaniu. Do tego czasu opcja macOS jest nieaktywna.</p></details>
       <details><summary>Czy dostanę bana na serwerach?</summary><p>Zasady zależą od serwera. Używaj tylko modułów dozwolonych przez regulamin serwera, na którym grasz.</p></details>
       <details><summary>Windows pokazuje „System Windows ochronił ten komputer”. Co robić?</summary><p>To okno SmartScreen. Pojawia się przy programach bez płatnego podpisu cyfrowego. Kliknij „Więcej informacji”, a potem „Uruchom mimo to”. Pobieraj instalator tylko z tej strony lub z Releases na GitHubie.</p></details>
       <details><summary>Antywirus blokuje plik. Co robić?</summary><p>Pobieraj wyłącznie z tej strony lub z Releases na GitHubie. Nowe, niepodpisane programy często są oznaczane przez pomyłkę. Jeśli antywirus nadal reaguje, dodaj plik do wyjątków albo zgłoś problem w Issues.</p></details>
@@ -196,7 +196,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 /* === USTAWIENIA: nazwa repozytorium i plik dla Windows === */
 const REPO = "lampaclient/pl1";
 const FILE = "LampaClient_Setup.exe";   // dokładnie ta nazwa pliku musi być w każdym wydaniu (Releases)
-const FILE_MAC = "LampaClient.dmg";      // plik dla macOS w każdym wydaniu (zmień, jeśli nazywa się inaczej)
 const BASE = "https://github.com/" + REPO;
 
 document.getElementById("gh-link").href = BASE;
@@ -206,7 +205,7 @@ const dl = document.getElementById("dl"), menu = document.getElementById("dlmenu
 const win = document.getElementById("dl-win"), mac = document.getElementById("dl-mac");
 const winMeta = document.getElementById("win-meta"), macMeta = document.getElementById("mac-meta");
 win.href = BASE + "/releases/latest/download/" + FILE;
-mac.href = BASE + "/releases/latest/download/" + FILE_MAC;
+mac.href = BASE + "/releases/latest";   // zmieni się na plik .dmg, gdy będzie w wydaniu
 
 /* polecany system (na górze listy) i telefon */
 const ua = navigator.userAgent;
@@ -251,14 +250,14 @@ fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
     }
     if (m) {
       mac.href = m.browser_download_url;
-      macMeta.textContent = (m.name.match(/\.[a-z.]+$/i) || [""])[0] + " · " + (m.size / 1048576).toFixed(1) + " MB · macOS 10.15+";
+      macMeta.textContent = (m.name.match(/\.[a-z.]+$/i) || [""])[0] + " · " + (m.size / 1048576).toFixed(1) + " MB";
     } else {
-      mac.href = BASE + "/releases/latest";   // w wydaniu nie ma pliku dla Maca: otwórz listę plików
-      macMeta.textContent = "Zobacz wydania · macOS 10.15+";
+      mac.setAttribute("aria-disabled", "true");
+      macMeta.textContent = "W przygotowaniu";
     }
-    document.getElementById("meta").textContent = "Wersja " + rel.tag_name + " · Windows · macOS";
+    document.getElementById("meta").textContent = "Wersja " + rel.tag_name + " · Windows" + (m ? " · macOS" : "");
   })
-  .catch(() => {});
+  .catch(() => { macMeta.textContent = "Zobacz wydania"; });
 
 /* światło lampy podąża za kursorem */
 addEventListener("pointermove", e => {
