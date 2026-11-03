@@ -17,7 +17,7 @@
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font:400 17px/1.6 "Instrument Sans",system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
-body::before{
+body::before{ /* światło lampy podążające za kursorem */
   content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(520px circle at var(--mx) var(--my),rgba(34,197,94,.16),transparent 70%);
 }
@@ -45,6 +45,7 @@ nav .links a:hover{color:var(--text)}
 .btn.ghost:hover{background:rgba(34,197,94,.1)}
 .meta{margin-top:16px;color:var(--muted);font-size:15px}
 
+/* podgląd launchera */
 .mock{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .mock .bar{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid var(--line)}
 .mock .bar span{width:11px;height:11px;border-radius:50%;background:var(--line)}
@@ -79,6 +80,22 @@ details p{color:var(--muted);margin-top:10px}
 footer{border-top:1px solid var(--line);padding:34px 0 50px;color:var(--muted);font-size:15px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 
+/* menu wyboru systemu pod przyciskiem Pobierz */
+.dlwrap{position:relative}
+.dlmenu{position:absolute;top:calc(100% + 10px);left:0;z-index:20;min-width:310px;padding:8px;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.55)}
+.dlmenu[hidden]{display:none}
+.dlitem{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:10px;text-decoration:none}
+.dlitem:hover,.dlitem:focus-visible{background:rgba(34,197,94,.12)}
+.dlitem .ico{font-size:28px;line-height:1}
+.dlitem strong{display:block;font:700 18px "Bricolage Grotesque",sans-serif}
+.dlitem small{display:block;color:var(--muted);font-size:13px}
+.dlitem.rec::after{content:"Polecane";margin-left:auto;background:var(--lamp);color:var(--lamp-d);font:700 11px "Instrument Sans",sans-serif;padding:3px 9px;border-radius:20px}
+.dlitem[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+.dlitem[aria-disabled="true"]:hover{background:none}
+.dlnote{padding:8px 14px 6px;color:var(--muted);font-size:13px}
+.btn .car{transition:transform .15s}
+.btn[aria-expanded="true"] .car{transform:rotate(180deg)}
+@media (max-width:480px){.dlmenu{min-width:min(310px,86vw)}}
 @media (max-width:820px){
   .hero{grid-template-columns:1fr;padding-top:30px}
   nav .links{gap:16px;font-size:15px}
@@ -105,7 +122,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
       <h1>Włącz światło w Minecraft.</h1>
       <p class="lead">Lampa Client to darmowy launcher Minecrafta: Vanilla, Fabric, Forge i NeoForge w jednym miejscu, z wbudowanym HUD-em i przeglądarką modów.</p>
       <div class="btns">
-        <a class="btn main" id="dl" href="https://github.com/lampaclient/pl1/releases/latest">Pobierz Lampa Client</a>
+        <div class="dlwrap">
+          <a class="btn main" id="dl" href="https://github.com/lampaclient/pl1/releases/latest" aria-haspopup="true" aria-expanded="false" aria-controls="dlmenu">Pobierz Lampa Client <span class="car" aria-hidden="true">▾</span></a>
+          <div class="dlmenu" id="dlmenu" role="menu" hidden>
+            <a class="dlitem" id="dl-win" role="menuitem" href="#"><span class="ico" aria-hidden="true">🖥️</span><span><strong>Windows</strong><small id="win-meta">.exe · Windows 10/11</small></span></a>
+            <a class="dlitem" id="dl-mac" role="menuitem" href="#"><span class="ico" aria-hidden="true">🍎</span><span><strong>macOS</strong><small id="mac-meta">Sprawdzam…</small></span></a>
+            <p class="dlnote" id="dlnote" hidden></p>
+          </div>
+        </div>
         <a class="btn ghost" href="#instalacja">Jak zainstalować</a>
       </div>
       <p class="meta" id="meta">Wersja: najnowsza · Windows</p>
@@ -152,6 +176,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     <div class="wrap">
       <h2>Pytania i odpowiedzi</h2>
       <details><summary>Czy to jest darmowe?</summary><p>Tak. Pobierasz i używasz klienta bez żadnych opłat.</p></details>
+      <details><summary>Czy jest wersja na Maca?</summary><p>Po kliknięciu „Pobierz” wybierasz Windows albo macOS. Wersja na macOS pojawi się na tej liście, gdy tylko zostanie opublikowana w wydaniu. Do tego czasu opcja macOS jest nieaktywna.</p></details>
       <details><summary>Czy dostanę bana na serwerach?</summary><p>Zasady zależą od serwera. Używaj tylko modułów dozwolonych przez regulamin serwera, na którym grasz.</p></details>
       <details><summary>Windows pokazuje „System Windows ochronił ten komputer”. Co robić?</summary><p>To okno SmartScreen. Pojawia się przy programach bez płatnego podpisu cyfrowego. Kliknij „Więcej informacji”, a potem „Uruchom mimo to”. Pobieraj instalator tylko z tej strony lub z Releases na GitHubie.</p></details>
       <details><summary>Antywirus blokuje plik. Co robić?</summary><p>Pobieraj wyłącznie z tej strony lub z Releases na GitHubie. Nowe, niepodpisane programy często są oznaczane przez pomyłkę. Jeśli antywirus nadal reaguje, dodaj plik do wyjątków albo zgłoś problem w Issues.</p></details>
@@ -168,24 +193,73 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 </footer>
 
 <script>
+/* === USTAWIENIA: nazwa repozytorium i plik dla Windows === */
 const REPO = "lampaclient/pl1";
-const FILE = "LampaClient_Setup.exe";
+const FILE = "LampaClient_Setup.exe";   // dokładnie ta nazwa pliku musi być w każdym wydaniu (Releases)
+const BASE = "https://github.com/" + REPO;
 
-document.getElementById("gh-link").href = "https://github.com/" + REPO;
-document.querySelector("footer a").href = "https://github.com/" + REPO + "/issues";
-document.getElementById("dl").href = "https://github.com/" + REPO + "/releases/latest/download/" + FILE;
+document.getElementById("gh-link").href = BASE;
+document.querySelector("footer a").href = BASE + "/issues";
 
+const dl = document.getElementById("dl"), menu = document.getElementById("dlmenu");
+const win = document.getElementById("dl-win"), mac = document.getElementById("dl-mac");
+const winMeta = document.getElementById("win-meta"), macMeta = document.getElementById("mac-meta");
+win.href = BASE + "/releases/latest/download/" + FILE;
+mac.href = BASE + "/releases/latest";   // zmieni się na plik .dmg, gdy będzie w wydaniu
+
+/* polecany system (na górze listy) i telefon */
+const ua = navigator.userAgent;
+const mobile = /android|iphone|ipad|ipod/i.test(ua);
+const isMac = /mac/i.test((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || ua) && !mobile;
+(isMac ? mac : win).classList.add("rec");
+if (isMac) menu.insertBefore(mac, win);
+if (mobile) {
+  const n = document.getElementById("dlnote");
+  n.textContent = "Wygląda na to, że jesteś na telefonie. Launcher działa tylko na komputerach.";
+  n.hidden = false;
+}
+
+/* „Pobierz” rozwija listę: Windows / macOS */
+function setOpen(open) {
+  menu.hidden = !open;
+  dl.setAttribute("aria-expanded", String(open));
+}
+dl.addEventListener("click", e => { e.preventDefault(); setOpen(menu.hidden); });
+document.addEventListener("click", e => {
+  if (!menu.hidden && !menu.contains(e.target) && !dl.contains(e.target)) setOpen(false);
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && !menu.hidden) { setOpen(false); dl.focus(); }
+});
+[win, mac].forEach(a => a.addEventListener("click", e => {
+  if (a.getAttribute("aria-disabled") === "true") { e.preventDefault(); return; }
+  setTimeout(() => setOpen(false), 300);
+}));
+
+/* dane z najnowszego wydania: pliki dla Windows i macOS */
 fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
   .then(r => r.ok ? r.json() : Promise.reject())
   .then(rel => {
     const list = rel.assets || [];
-    const asset = list.find(a => /\.exe$/i.test(a.name)) || list.find(a => a.name === FILE) || list[0];
-    if (asset) document.getElementById("dl").href = asset.browser_download_url;
-    document.getElementById("meta").textContent =
-      "Wersja " + rel.tag_name + " · Windows";
+    const w = list.find(a => /\.exe$/i.test(a.name));
+    const m = list.find(a => /\.(dmg|pkg)$/i.test(a.name)) ||
+              list.find(a => /mac|osx|darwin/i.test(a.name) && /\.(zip|tar\.gz)$/i.test(a.name));
+    if (w) {
+      win.href = w.browser_download_url;
+      winMeta.textContent = ".exe · " + (w.size / 1048576).toFixed(1) + " MB";
+    }
+    if (m) {
+      mac.href = m.browser_download_url;
+      macMeta.textContent = (m.name.match(/\.[a-z.]+$/i) || [""])[0] + " · " + (m.size / 1048576).toFixed(1) + " MB";
+    } else {
+      mac.setAttribute("aria-disabled", "true");
+      macMeta.textContent = "W przygotowaniu";
+    }
+    document.getElementById("meta").textContent = "Wersja " + rel.tag_name + " · Windows" + (m ? " · macOS" : "");
   })
-  .catch(() => {});
+  .catch(() => { macMeta.textContent = "Zobacz wydania"; });
 
+/* światło lampy podąża za kursorem */
 addEventListener("pointermove", e => {
   document.documentElement.style.setProperty("--mx", e.clientX + "px");
   document.documentElement.style.setProperty("--my", e.clientY + "px");
