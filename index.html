@@ -17,7 +17,7 @@
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font:400 17px/1.6 "Instrument Sans",system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
-body::before{ /* światło lampy podążające za kursorem */
+body::before{
   content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(520px circle at var(--mx) var(--my),rgba(34,197,94,.16),transparent 70%);
 }
@@ -45,7 +45,6 @@ nav .links a:hover{color:var(--text)}
 .btn.ghost:hover{background:rgba(34,197,94,.1)}
 .meta{margin-top:16px;color:var(--muted);font-size:15px}
 
-/* podgląd launchera */
 .mock{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45)}
 .mock .bar{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid var(--line)}
 .mock .bar span{width:11px;height:11px;border-radius:50%;background:var(--line)}
@@ -95,7 +94,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
       <a href="#funkcje">Funkcje</a>
       <a href="#instalacja">Instalacja</a>
       <a href="#faq">FAQ</a>
-      <a id="gh-link" href="https://github.com/lampaclient/pl">GitHub</a>
+      <a id="gh-link" href="https://github.com/lampaclient/pl1">GitHub</a>
     </div>
   </nav>
 </header>
@@ -106,7 +105,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
       <h1>Włącz światło w Minecraft.</h1>
       <p class="lead">Lampa Client to darmowy launcher Minecrafta: Vanilla, Fabric, Forge i NeoForge w jednym miejscu, z wbudowanym HUD-em i przeglądarką modów.</p>
       <div class="btns">
-        <a class="btn main" id="dl" href="https://github.com/lampaclient/pl/releases/latest">Pobierz Lampa Client</a>
+        <a class="btn main" id="dl" href="https://github.com/lampaclient/pl1/releases/latest">Pobierz Lampa Client</a>
         <a class="btn ghost" href="#instalacja">Jak zainstalować</a>
       </div>
       <p class="meta" id="meta">Wersja: najnowsza · Windows</p>
@@ -164,20 +163,18 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 <footer>
   <div class="wrap">
     <span>© 2026 Lampa Client. Projekt nie jest powiązany z Mojang ani Microsoft.</span>
-    <a href="https://github.com/lampaclient/pl/issues">Zgłoś błąd</a>
+    <a href="https://github.com/lampaclient/pl1/issues">Zgłoś błąd</a>
   </div>
 </footer>
 
 <script>
-/* === USTAWIENIA: wpisz swój nick i nazwę repozytorium === */
-const REPO = "lampaclient/pl";
-const FILE = "LampaClient_Setup.exe";   // dokładnie ta nazwa pliku musi być w każdym wydaniu (Releases)
+const REPO = "lampaclient/pl1";
+const FILE = "LampaClient_Setup.exe";
 
 document.getElementById("gh-link").href = "https://github.com/" + REPO;
 document.querySelector("footer a").href = "https://github.com/" + REPO + "/issues";
 document.getElementById("dl").href = "https://github.com/" + REPO + "/releases/latest/download/" + FILE;
 
-// Pobierz numer najnowszego wydania i link do pliku
 fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
   .then(r => r.ok ? r.json() : Promise.reject())
   .then(rel => {
@@ -189,7 +186,6 @@ fetch("https://api.github.com/repos/" + REPO + "/releases/latest")
   })
   .catch(() => {});
 
-// Światło lampy podąża za kursorem
 addEventListener("pointermove", e => {
   document.documentElement.style.setProperty("--mx", e.clientX + "px");
   document.documentElement.style.setProperty("--my", e.clientY + "px");
