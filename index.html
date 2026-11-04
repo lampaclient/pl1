@@ -92,6 +92,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .dlitem.rec::after{content:"Polecane";margin-left:auto;background:var(--lamp);color:var(--lamp-d);font:700 11px "Instrument Sans",sans-serif;padding:3px 9px;border-radius:20px}
 .dlitem[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
 .dlitem[aria-disabled="true"]:hover{background:none}
+.dlitem.wrong{opacity:.5;cursor:not-allowed}
+.dlitem.wrong:hover{background:none}
+.dlitem.wrong::after{content:"Inny system";margin-left:auto;border:1px solid var(--line);color:var(--muted);font:600 11px "Instrument Sans",sans-serif;padding:3px 9px;border-radius:20px}
+.dlnote.warn{color:#ffb4a8}
 .dlnote{padding:8px 14px 6px;color:var(--muted);font-size:13px}
 .btn .car{transition:transform .15s}
 .btn[aria-expanded="true"] .car{transform:rotate(180deg)}
@@ -211,6 +215,9 @@ mac.href = BASE + "/releases/latest";   // zmieni się na plik .dmg, gdy będzie
 const ua = navigator.userAgent;
 const mobile = /android|iphone|ipad|ipod/i.test(ua);
 const isMac = /mac/i.test((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || ua) && !mobile;
+const plat = ((navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || ua);
+const me = mobile ? null : isMac ? "mac" : /win/i.test(plat) ? "win" : null;   // Linux itp. = bez blokady
+if (me) (me === "mac" ? win : mac).classList.add("wrong");
 (isMac ? mac : win).classList.add("rec");
 if (isMac) menu.insertBefore(mac, win);
 if (mobile) {
@@ -233,6 +240,15 @@ document.addEventListener("keydown", e => {
 });
 [win, mac].forEach(a => a.addEventListener("click", e => {
   if (a.getAttribute("aria-disabled") === "true") { e.preventDefault(); return; }
+  if (a.classList.contains("wrong")) {
+    e.preventDefault();
+    const n = document.getElementById("dlnote");
+    n.textContent = me === "mac"
+      ? "Ten plik jest na Windows i nie uruchomi się na Macu. Wybierz wersję na macOS."
+      : "Ten plik jest na macOS i nie uruchomi się na Windowsie. Wybierz wersję na Windows.";
+    n.className = "dlnote warn"; n.hidden = false;
+    return;
+  }
   setTimeout(() => setOpen(false), 300);
 }));
 
